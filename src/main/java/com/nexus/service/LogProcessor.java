@@ -41,6 +41,7 @@ public class LogProcessor {
                             }
                             case "CREATE_PROJECT" -> {
                                 Project project = new Project(p[1], Integer.parseInt(p[2]));
+                                System.out.println("[LOG] Projeto criado: " + p[1]);
                             }
                             default -> System.err.println("[WARN] Ação desconhecida: " + action);
                         }
