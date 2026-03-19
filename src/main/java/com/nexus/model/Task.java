@@ -1,12 +1,14 @@
 package com.nexus.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
+import com.nexus.exception.NexusValidationException;
 
 public class Task {
     // Métricas Globais (Alunos implementam a lógica de incremento/decremento)
-    public static int totalTasksCreated = 0;
-    public static int totalValidationErrors = 0;
-    public static int activeWorkload = 0;
+    private int totalTasksCreated = 0;
+    private int totalValidationErrors = 0;
+    private int activeWorkload = 0;
 
     private static int nextId = 1;
 
@@ -32,7 +34,16 @@ public class Task {
      */
     public void moveToInProgress(User user) {
         // TODO: Implementar lógica de proteção e atualizar activeWorkload
+        // IN PROGRESS
         // Se falhar, incrementar totalValidationErrors e lançar NexusValidationException
+
+        // Validação 
+        if(Objects.isNull(user)){
+            throw new NexusValidationException("Usuário não existe");
+        }
+        this.status = TaskStatus.IN_PROGRESS;
+        activeWorkload++;
+        return;
     }
 
     /**
@@ -41,6 +52,12 @@ public class Task {
      */
     public void markAsDone() {
         // TODO: Implementar lógica de proteção e atualizar activeWorkload (decrementar)
+        // IN PROGRESS
+        if(this.getStatus() == TaskStatus.BLOCKED){
+            return;
+        }
+        this.status = TaskStatus.DONE;
+        activeWorkload--;
     }
 
     public void setBlocked(boolean blocked) {
@@ -52,6 +69,9 @@ public class Task {
     }
 
     // Getters
+    public int getTotalTasksCreated() { return totalTasksCreated; }
+    public int getTotalValidationErrors() { return totalValidationErrors; }
+    public int getActiveWorkload() { return activeWorkload; }
     public int getId() { return id; }
     public TaskStatus getStatus() { return status; }
     public String getTitle() { return title; }
