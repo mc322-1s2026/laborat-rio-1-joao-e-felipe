@@ -6,9 +6,8 @@ import com.nexus.exception.NexusValidationException;
 
 public class Task {
     // Métricas Globais (Alunos implementam a lógica de incremento/decremento)
-    private int totalTasksCreated = 0;
-    private int totalValidationErrors = 0;
-    private int activeWorkload = 0;
+    public int totalTasksCreated = 0;
+    public int activeWorkload = 0;
 
     private static int nextId = 1;
 
@@ -69,9 +68,6 @@ public class Task {
     }
 
     // Getters
-    public int getTotalTasksCreated() { return totalTasksCreated; }
-    public int getTotalValidationErrors() { return totalValidationErrors; }
-    public int getActiveWorkload() { return activeWorkload; }
     public int getId() { return id; }
     public TaskStatus getStatus() { return status; }
     public String getTitle() { return title; }
