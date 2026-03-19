@@ -15,15 +15,17 @@ public class Task {
     private String title;
     private TaskStatus status;
     private User owner;
+    private int estimatedEffort;
 
-    public Task(String title, LocalDate deadline) {
+    public Task(String title, LocalDate deadline, int estimatedEffort) {
         this.id = nextId++;
         this.deadline = deadline;
         this.title = title;
         this.status = TaskStatus.TO_DO;
-        
+        this.estimatedEffort = estimatedEffort;
+
         // Ação do Aluno:
-        totalTasksCreated++; 
+        totalTasksCreated++;
     }
 
     /**
@@ -32,7 +34,8 @@ public class Task {
      */
     public void moveToInProgress(User user) {
         // TODO: Implementar lógica de proteção e atualizar activeWorkload
-        // Se falhar, incrementar totalValidationErrors e lançar NexusValidationException
+        // Se falhar, incrementar totalValidationErrors e lançar
+        // NexusValidationException
     }
 
     /**
@@ -52,9 +55,27 @@ public class Task {
     }
 
     // Getters
-    public int getId() { return id; }
-    public TaskStatus getStatus() { return status; }
-    public String getTitle() { return title; }
-    public LocalDate getDeadline() { return deadline; }
-    public User getOwner() { return owner; }
+    public int getId() {
+        return id;
+    }
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public LocalDate getDeadline() {
+        return deadline;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public int consultEstimatedEffort() {
+        return estimatedEffort;
+    }
 }
