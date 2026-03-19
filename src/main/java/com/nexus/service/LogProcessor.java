@@ -12,7 +12,7 @@ public class LogProcessor {
         try {
             // Busca o arquivo dentro da pasta de recursos do projeto (target/classes)
             var resource = getClass().getClassLoader().getResourceAsStream(fileName);
-            
+
             if (resource == null) {
                 throw new IOException("Arquivo não encontrado no classpath: " + fileName);
             }
@@ -20,9 +20,10 @@ public class LogProcessor {
             try (java.util.Scanner s = new java.util.Scanner(resource).useDelimiter("\\A")) {
                 String content = s.hasNext() ? s.next() : "";
                 List<String> lines = List.of(content.split("\\R"));
-                
+
                 for (String line : lines) {
-                    if (line.isBlank() || line.startsWith("#")) continue;
+                    if (line.isBlank() || line.startsWith("#"))
+                        continue;
 
                     String[] p = line.split(";");
                     String action = p[0];
@@ -30,7 +31,7 @@ public class LogProcessor {
                     try {
                         switch (action) {
                             case "CREATE_USER" -> {
-                                users.add(new User(p[1], p[2]));
+                                users.add(new User(p[1], p[2], workspace));
                                 System.out.println("[LOG] Usuário criado: " + p[1]);
                             }
                             case "CREATE_TASK" -> {
