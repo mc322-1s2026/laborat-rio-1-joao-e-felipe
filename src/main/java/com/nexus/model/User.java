@@ -1,8 +1,9 @@
 package com.nexus.model;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import java.util.stream.Stream;
 
 import com.nexus.service.Workspace;
 
@@ -37,12 +38,13 @@ public class User {
         return username;
     }
 
-    // TODO: 
-    //public long calculateWorkload() {
-    //    List<Task> userTasks = workspace.getTasks();
-    //    return userTasks.stream()
-    //            .filter(task -> task.getOwner() != null && task.getOwner().consultUsername().equals(username))
-    //            .filter(task -> task.getStatus() != null && task.getStatus().equals(TaskStatus.IN_PROGRESS))
-    //            .count();
-    //}
+    private Stream<Task> getUserTasksStream(Workspace workspace){
+        return workspace.getTasks().stream()
+        .filter(task -> task.getOwner().equals(this))
+        .filter(task -> task.getStatus().equals(TaskStatus.IN_PROGRESS));
+    }
+
+    public long calculateWorkload(Workspace workspace) {
+        return getUserTasksStream(workspace).count();
+    }
 }
