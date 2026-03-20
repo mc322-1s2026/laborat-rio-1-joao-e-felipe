@@ -144,7 +144,7 @@ public class Main {
                     t.getDeadline());
         }
         System.out.println(header);
-        System.out.println("Total de tarefas: " + Task.totalTasksCreated);
+        System.out.println("Total de tarefas: " + Task.getTotalTasksCreated());
     }
 
     /**
