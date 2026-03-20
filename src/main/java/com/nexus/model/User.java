@@ -10,7 +10,6 @@ public class User {
     private final String username;
     private final String email;
     private static final String EMAIL_REQUIREMENTS = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-    private Workspace workspace;
 
     public static boolean isValidEmail(String email) {
         Pattern pattern = Pattern.compile(EMAIL_REQUIREMENTS);
@@ -18,14 +17,14 @@ public class User {
         return matcher.matches();
     }
 
-    public User(String username, String email, Workspace workspace) {
+    public User(String username, String email) {
         if (username == null || username.isBlank()) {
             throw new IllegalArgumentException("Username não pode ser vazio.");
         }
         if (!isValidEmail(email)) {
-            throw new IllegalArgumentException("Email invalido.");
+            throw new IllegalArgumentException("Email invalido");
         }
-        this.workspace = workspace;
+        //this.workspace = workspace;
         this.username = username;
         this.email = email;
     }
@@ -38,11 +37,12 @@ public class User {
         return username;
     }
 
-    public long calculateWorkload() {
-        List<Task> userTasks = workspace.getTasks();
-        return userTasks.stream()
-                .filter(task -> task.getOwner() != null && task.getOwner().consultUsername().equals(username))
-                .filter(task -> task.getStatus() != null && task.getStatus().equals(TaskStatus.IN_PROGRESS))
-                .count();
-    }
+    // TODO: 
+    //public long calculateWorkload() {
+    //    List<Task> userTasks = workspace.getTasks();
+    //    return userTasks.stream()
+    //            .filter(task -> task.getOwner() != null && task.getOwner().consultUsername().equals(username))
+    //            .filter(task -> task.getStatus() != null && task.getStatus().equals(TaskStatus.IN_PROGRESS))
+    //            .count();
+    //}
 }
