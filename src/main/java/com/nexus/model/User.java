@@ -1,5 +1,9 @@
 package com.nexus.model;
 
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,9 +27,8 @@ public class User {
             throw new IllegalArgumentException("Username não pode ser vazio.");
         }
         if (!isValidEmail(email)) {
-            throw new IllegalArgumentException("Email invalido");
+            throw new IllegalArgumentException("Email inválido");
         }
-        //this.workspace = workspace;
         this.username = username;
         this.email = email;
     }
@@ -37,6 +40,14 @@ public class User {
     public String consultUsername() {
         return username;
     }
+
+    //public static User findUser(Workspace workspace, String username) {
+    //    List<User> users = workspace.getUsers();
+    //    return users.stream()
+    //            .filter(user -> user.consultUsername().equals(username))
+    //            .findFirst()
+    //            .orElse(null);
+    //}
 
     private Stream<Task> getUserTasksStream(Workspace workspace){
         return workspace.getTasks().stream()

@@ -6,13 +6,15 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.nexus.model.User;
+
 public class LogProcessor {
 
     public void processLog(String fileName, Workspace workspace, List<User> users) {
         try {
             // Busca o arquivo dentro da pasta de recursos do projeto (target/classes)
             var resource = getClass().getClassLoader().getResourceAsStream(fileName);
-            
+
             if (resource == null) {
                 throw new IOException("Arquivo não encontrado no classpath: " + fileName);
             }
@@ -20,9 +22,10 @@ public class LogProcessor {
             try (java.util.Scanner s = new java.util.Scanner(resource).useDelimiter("\\A")) {
                 String content = s.hasNext() ? s.next() : "";
                 List<String> lines = List.of(content.split("\\R"));
-                
+
                 for (String line : lines) {
-                    if (line.isBlank() || line.startsWith("#")) continue;
+                    if (line.isBlank() || line.startsWith("#"))
+                        continue;
 
                     String[] p = line.split(";");
                     String action = p[0];
@@ -30,13 +33,29 @@ public class LogProcessor {
                     try {
                         switch (action) {
                             case "CREATE_USER" -> {
-                                users.add(new User(p[1], p[2]));
+                                workspace.addUser(new User(p[1], p[2]));
                                 System.out.println("[LOG] Usuário criado: " + p[1]);
                             }
                             case "CREATE_TASK" -> {
-                                Task t = new Task(p[1], LocalDate.parse(p[2]));
+                                // TODO: remove this estimatedEffor: 0
+                                Task t = new Task(p[1], LocalDate.parse(p[2]), 0);
                                 workspace.addTask(t);
                                 System.out.println("[LOG] Tarefa criada: " + p[1]);
+                            }
+                            case "CREATE_PROJECT" -> {
+                                Project project = new Project(p[1], Integer.parseInt(p[2]));
+                                System.out.println("[LOG] Projeto criado: " + p[1]);
+                            }
+                            case "ASSIGN_USER" -> {
+                                Task.assignUser(Integer.parseInt(p[1]), p[2], workspace);
+                                System.out.println("[LOG] User atribuido");
+                            }
+                            case "CHANGE_STATUS" -> {
+                                Task.changeStatus(Integer.parseInt(p[1]), p[2], workspace);
+                                System.out.println("[LOG] Status modificado");
+                            }
+                            case "REPORT_STATUS" -> {
+                                //workspace.reportStatus();
                             }
                             default -> System.err.println("[WARN] Ação desconhecida: " + action);
                         }
