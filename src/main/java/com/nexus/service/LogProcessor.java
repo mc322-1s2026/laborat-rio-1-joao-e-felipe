@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.nexus.model.User;
+
 public class LogProcessor {
 
     public void processLog(String fileName, Workspace workspace, List<User> users) {
@@ -31,11 +33,12 @@ public class LogProcessor {
                     try {
                         switch (action) {
                             case "CREATE_USER" -> {
-                                users.add(new User(p[1], p[2], workspace));
+                                workspace.addUser(new User(p[1], p[2]));
                                 System.out.println("[LOG] Usuário criado: " + p[1]);
                             }
                             case "CREATE_TASK" -> {
-                                Task t = new Task(p[1], LocalDate.parse(p[2]), Integer.parseInt(p[3]));
+                                // TODO: remove this estimatedEffor: 0
+                                Task t = new Task(p[1], LocalDate.parse(p[2]), 0);
                                 workspace.addTask(t);
                                 System.out.println("[LOG] Tarefa criada: " + p[1]);
                             }
@@ -52,7 +55,7 @@ public class LogProcessor {
                                 System.out.println("[LOG] Status modificado");
                             }
                             case "REPORT_STATUS" -> {
-                                workspace.reportStatus();
+                                //workspace.reportStatus();
                             }
                             default -> System.err.println("[WARN] Ação desconhecida: " + action);
                         }

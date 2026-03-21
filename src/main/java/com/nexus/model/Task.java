@@ -106,20 +106,13 @@ public class Task {
     }
 
     public static void assignUser(int taskId, String username, Workspace workspace) {
-        Task task = Task.findTask(taskId, workspace);
-        task.owner = User.findUser(username, workspace);
+        Task task = workspace.findTask(taskId);
+        task.owner = workspace.findUser(username);
     }
 
-    public static Task findTask(int taskID, Workspace workspace) {
-        List<Task> userTasks = workspace.getTasks();
-        return userTasks.stream()
-                .filter(task -> task.getId() == taskID)
-                .findFirst()
-                .orElse(null);
-    }
 
     public static void changeStatus(int taskId, String status, Workspace workspace) {
-        Task task = Task.findTask(taskId, workspace);
+        Task task = workspace.findTask(taskId);
         // TODO: change status
     }
 }

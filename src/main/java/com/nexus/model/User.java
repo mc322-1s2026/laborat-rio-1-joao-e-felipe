@@ -4,14 +4,17 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.nexus.Main;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import java.util.stream.Stream;
+
 import com.nexus.service.Workspace;
 
 public class User {
     private final String username;
     private final String email;
     private static final String EMAIL_REQUIREMENTS = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-    private Workspace workspace;
 
     public static boolean isValidEmail(String email) {
         Pattern pattern = Pattern.compile(EMAIL_REQUIREMENTS);
@@ -19,14 +22,13 @@ public class User {
         return matcher.matches();
     }
 
-    public User(String username, String email, Workspace workspace) {
+    public User(String username, String email) {
         if (username == null || username.isBlank()) {
             throw new IllegalArgumentException("Username não pode ser vazio.");
         }
         if (!isValidEmail(email)) {
-            throw new IllegalArgumentException("Email invalido.");
+            throw new IllegalArgumentException("Email inválido");
         }
-        this.workspace = workspace;
         this.username = username;
         this.email = email;
     }
@@ -39,19 +41,21 @@ public class User {
         return username;
     }
 
-    public long calculateWorkload() {
-        List<Task> userTasks = workspace.getTasks();
-        return userTasks.stream()
-                .filter(task -> task.getOwner() != null && task.getOwner().consultUsername().equals(username))
-                .filter(task -> task.getStatus() != null && task.getStatus().equals(TaskStatus.IN_PROGRESS))
-                .count();
+    //public static User findUser(Workspace workspace, String username) {
+    //    List<User> users = workspace.getUsers();
+    //    return users.stream()
+    //            .filter(user -> user.consultUsername().equals(username))
+    //            .findFirst()
+    //            .orElse(null);
+    //}
+
+    private Stream<Task> getUserTasksStream(Workspace workspace){
+        return workspace.getTasks().stream()
+        .filter(task -> task.getOwner().equals(this))
+        .filter(task -> task.getStatus().equals(TaskStatus.IN_PROGRESS));
     }
 
-    public static User findUser(String username, Workspace workspace) {
-        List<User> users = Main.getUsers();
-        return users.stream()
-                .filter(user -> user.consultUsername().equals(username))
-                .findFirst()
-                .orElse(null);
+    public long calculateWorkload(Workspace workspace) {
+        return getUserTasksStream(workspace).count();
     }
 }

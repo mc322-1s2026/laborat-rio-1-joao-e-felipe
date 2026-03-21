@@ -89,8 +89,8 @@ public class Main {
             System.out.print("Email: ");
             String email = scanner.nextLine();
 
-            User newUser = new User(username, email, workspace);
-            users.add(newUser);
+            User newUser = new User(username, email);
+            workspace.addUser(newUser);
             System.out.println("[OK] Usuário cadastrado.");
         } catch (NexusValidationException e) {
             System.err.println("[ERRO] " + e.getMessage());
