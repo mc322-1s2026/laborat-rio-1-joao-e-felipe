@@ -3,6 +3,7 @@ package com.nexus;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -159,5 +160,10 @@ public class Main {
         if (str == null)
             return "";
         return str.length() > tam ? str.substring(0, tam - 3) + "..." : str;
+    }
+
+    public static List<User> getUsers() {
+        // Retorna uma visão não modificável para garantir encapsulamento
+        return Collections.unmodifiableList(users);
     }
 }
