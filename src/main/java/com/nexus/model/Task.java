@@ -117,4 +117,9 @@ public class Task {
                 .findFirst()
                 .orElse(null);
     }
+
+    public static void changeStatus(int taskId, String status, Workspace workspace) {
+        Task task = Task.findTask(taskId, workspace);
+        // TODO: change status
+    }
 }

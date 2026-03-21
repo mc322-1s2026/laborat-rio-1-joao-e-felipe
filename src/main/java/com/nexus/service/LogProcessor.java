@@ -44,11 +44,11 @@ public class LogProcessor {
                                 System.out.println("[LOG] Projeto criado: " + p[1]);
                             }
                             case "ASSIGN_USER" -> {
-                                Project project = new Project(p[1], Integer.parseInt(p[2]));
-                                System.out.println("[LOG] Projeto criado: " + p[1]);
+                                Task.assignUser(Integer.parseInt(p[1]), p[2], workspace);
+                                System.out.println("[LOG] User atribuido");
                             }
                             case "CHANGE_STATUS" -> {
-                                Project project = new Project(p[1], Integer.parseInt(p[2]));
+                                Task.changeStatus(Integer.parseInt(p[1]), p[2], workspace);
                                 System.out.println("[LOG] Projeto criado: " + p[1]);
                             }
                             case "REPORT_STATUS" -> {
