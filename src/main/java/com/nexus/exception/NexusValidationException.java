@@ -1,7 +1,6 @@
 package com.nexus.exception;
 
 public class NexusValidationException extends RuntimeException {
-    private static int totalErros = 0;
 
     private static int totalValidationErrors = 0;
 

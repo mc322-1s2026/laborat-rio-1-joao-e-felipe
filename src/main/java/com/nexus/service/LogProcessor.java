@@ -43,6 +43,18 @@ public class LogProcessor {
                                 Project project = new Project(p[1], Integer.parseInt(p[2]));
                                 System.out.println("[LOG] Projeto criado: " + p[1]);
                             }
+                            case "ASSIGN_USER" -> {
+                                Project project = new Project(p[1], Integer.parseInt(p[2]));
+                                System.out.println("[LOG] Projeto criado: " + p[1]);
+                            }
+                            case "CHANGE_STATUS" -> {
+                                Project project = new Project(p[1], Integer.parseInt(p[2]));
+                                System.out.println("[LOG] Projeto criado: " + p[1]);
+                            }
+                            case "REPORT_STATUS" -> {
+                                Project project = new Project(p[1], Integer.parseInt(p[2]));
+                                System.out.println("[LOG] Projeto criado: " + p[1]);
+                            }
                             default -> System.err.println("[WARN] Ação desconhecida: " + action);
                         }
                     } catch (NexusValidationException e) {

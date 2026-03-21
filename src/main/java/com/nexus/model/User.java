@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.nexus.Main;
 import com.nexus.service.Workspace;
 
 public class User {
@@ -44,5 +45,13 @@ public class User {
                 .filter(task -> task.getOwner() != null && task.getOwner().consultUsername().equals(username))
                 .filter(task -> task.getStatus() != null && task.getStatus().equals(TaskStatus.IN_PROGRESS))
                 .count();
+    }
+
+    public static User findUser(String username, Workspace workspace) {
+        List<User> users = Main.getUsers();
+        return users.stream()
+                .filter(user -> user.consultUsername().equals(username))
+                .findFirst()
+                .orElse(null);
     }
 }

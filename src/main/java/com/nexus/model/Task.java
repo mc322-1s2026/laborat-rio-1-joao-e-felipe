@@ -1,8 +1,10 @@
 package com.nexus.model;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 import com.nexus.exception.NexusValidationException;
+import com.nexus.service.Workspace;
 
 public class Task {
     // Métricas Globais (Alunos implementam a lógica de incremento/decremento)
@@ -101,5 +103,18 @@ public class Task {
 
     public int consultEstimatedEffort() {
         return estimatedEffort;
+    }
+
+    public static void assignUser(int taskId, String username, Workspace workspace) {
+        Task task = Task.findTask(taskId, workspace);
+        task.owner = User.findUser(username, workspace);
+    }
+
+    public static Task findTask(int taskID, Workspace workspace) {
+        List<Task> userTasks = workspace.getTasks();
+        return userTasks.stream()
+                .filter(task -> task.getId() == taskID)
+                .findFirst()
+                .orElse(null);
     }
 }
