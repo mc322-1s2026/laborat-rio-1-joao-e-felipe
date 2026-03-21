@@ -26,4 +26,8 @@ public class Project {
     public String consultName() {
         return name;
     }
+
+    public List<Task> getProjectTasks() {
+        return tasks;
+    }
 }

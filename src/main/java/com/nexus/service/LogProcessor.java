@@ -49,11 +49,10 @@ public class LogProcessor {
                             }
                             case "CHANGE_STATUS" -> {
                                 Task.changeStatus(Integer.parseInt(p[1]), p[2], workspace);
-                                System.out.println("[LOG] Projeto criado: " + p[1]);
+                                System.out.println("[LOG] Status modificado");
                             }
                             case "REPORT_STATUS" -> {
-                                Project project = new Project(p[1], Integer.parseInt(p[2]));
-                                System.out.println("[LOG] Projeto criado: " + p[1]);
+                                workspace.reportStatus();
                             }
                             default -> System.err.println("[WARN] Ação desconhecida: " + action);
                         }
