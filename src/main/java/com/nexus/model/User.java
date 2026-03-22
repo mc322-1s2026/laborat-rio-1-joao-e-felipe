@@ -15,7 +15,6 @@ public class User {
     private final String username;
     private final String email;
     private static final String EMAIL_REQUIREMENTS = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-
     public static boolean isValidEmail(String email) {
         Pattern pattern = Pattern.compile(EMAIL_REQUIREMENTS);
         Matcher matcher = pattern.matcher(email);
@@ -40,14 +39,6 @@ public class User {
     public String consultUsername() {
         return username;
     }
-
-    //public static User findUser(Workspace workspace, String username) {
-    //    List<User> users = workspace.getUsers();
-    //    return users.stream()
-    //            .filter(user -> user.consultUsername().equals(username))
-    //            .findFirst()
-    //            .orElse(null);
-    //}
 
     private Stream<Task> getUserTasksStream(Workspace workspace){
         return workspace.getTasks().stream()

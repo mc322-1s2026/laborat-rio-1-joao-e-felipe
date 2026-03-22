@@ -88,7 +88,6 @@ public class Main {
             String username = scanner.nextLine();
             System.out.print("Email: ");
             String email = scanner.nextLine();
-
             User newUser = new User(username, email);
             workspace.addUser(newUser);
             System.out.println("[OK] Usuário cadastrado.");
