@@ -15,7 +15,6 @@ public class User {
     private final String username;
     private final String email;
     private static final String EMAIL_REQUIREMENTS = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-
     public static boolean isValidEmail(String email) {
         Pattern pattern = Pattern.compile(EMAIL_REQUIREMENTS);
         Matcher matcher = pattern.matcher(email);
