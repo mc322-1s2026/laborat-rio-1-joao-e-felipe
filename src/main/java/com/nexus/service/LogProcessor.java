@@ -44,6 +44,7 @@ public class LogProcessor {
                             }
                             case "CREATE_PROJECT" -> {
                                 Project project = new Project(p[1], Integer.parseInt(p[2]));
+                                workspace.addProject(project);
                                 System.out.println("[LOG] Projeto criado: " + p[1]);
                             }
                             case "ASSIGN_USER" -> {
@@ -55,7 +56,7 @@ public class LogProcessor {
                                 System.out.println("[LOG] Status modificado");
                             }
                             case "REPORT_STATUS" -> {
-                                //workspace.reportStatus();
+                                workspace.reportStatus();
                             }
                             default -> System.err.println("[WARN] Ação desconhecida: " + action);
                         }

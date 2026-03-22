@@ -1,5 +1,6 @@
 package com.nexus.service;
 
+import com.nexus.model.Project;
 import com.nexus.model.Task;
 import com.nexus.model.TaskStatus;
 import com.nexus.model.User;
@@ -15,12 +16,13 @@ public class Workspace {
 
     // Users
     private final List<User> users = new ArrayList<>();
+    private final List<Project> projects = new ArrayList<>();
 
-    public List<User> getUsers(){
+    public List<User> getUsers() {
         return Collections.unmodifiableList(users);
     }
 
-    public void addUser(User user){
+    public void addUser(User user) {
         users.add(user);
     }
 
@@ -59,7 +61,7 @@ public class Workspace {
                         Task::getOwner,
                         Collectors.counting()));
 
-        return  getUsers().stream()
+        return getUsers().stream()
                 .sorted(Comparator.comparingLong((User user) -> counts.getOrDefault(user, 0L)).reversed())
                 .limit(3)
                 .collect(Collectors.toList());
@@ -85,7 +87,35 @@ public class Workspace {
                 .collect(Collectors.toList());
     }
 
-    private double projectHealth() {
-        return 0;
+    private void projectHealth() {
+        projects.stream()
+                .forEach(p -> System.out.printf("Projeto %s: %.2f%%\n", p.consultName(), p.projectHealth()));
+    }
+
+    public void addProject(Project project) {
+        projects.add(project);
+    }
+
+    private TaskStatus bottleneck() {
+        List<Task> tasks = this.getTasks();
+        Map<TaskStatus, Long> statusCount = tasks.stream()
+                .collect(Collectors.groupingBy(Task::getStatus, Collectors.counting()));
+        return statusCount.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(null);
+    }
+
+    public void reportStatus() {
+        System.out.println("REPORT STATUS BEGINNING -----------");
+        System.out.println("Top Performers:");
+        System.out.println(this.topPerformers());
+        System.out.println("Overloaded Users:");
+        System.out.println(this.overloadedUsers());
+        System.out.println("Project Health:");
+        this.projectHealth();
+        System.out.println("Bottleneck:");
+        System.out.println(this.bottleneck());
+        System.out.println("REPORT STATUS END -----------");
     }
 }
