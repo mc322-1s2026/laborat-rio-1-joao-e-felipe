@@ -96,7 +96,7 @@ public class Workspace {
         projects.add(project);
     }
 
-    public TaskStatus bottleneck() {
+    private TaskStatus bottleneck() {
         List<Task> tasks = this.getTasks();
         Map<TaskStatus, Long> statusCount = tasks.stream()
                 .collect(Collectors.groupingBy(Task::getStatus, Collectors.counting()));
