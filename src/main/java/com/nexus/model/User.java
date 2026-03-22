@@ -41,21 +41,26 @@ public class User {
         return username;
     }
 
-    //public static User findUser(Workspace workspace, String username) {
-    //    List<User> users = workspace.getUsers();
-    //    return users.stream()
-    //            .filter(user -> user.consultUsername().equals(username))
-    //            .findFirst()
-    //            .orElse(null);
-    //}
+    // public static User findUser(Workspace workspace, String username) {
+    // List<User> users = workspace.getUsers();
+    // return users.stream()
+    // .filter(user -> user.consultUsername().equals(username))
+    // .findFirst()
+    // .orElse(null);
+    // }
 
-    private Stream<Task> getUserTasksStream(Workspace workspace){
+    private Stream<Task> getUserTasksStream(Workspace workspace) {
         return workspace.getTasks().stream()
-        .filter(task -> task.getOwner().equals(this))
-        .filter(task -> task.getStatus().equals(TaskStatus.IN_PROGRESS));
+                .filter(task -> task.getOwner().equals(this))
+                .filter(task -> task.getStatus().equals(TaskStatus.IN_PROGRESS));
     }
 
     public long calculateWorkload(Workspace workspace) {
         return getUserTasksStream(workspace).count();
+    }
+
+    @Override
+    public String toString() {
+        return username;
     }
 }

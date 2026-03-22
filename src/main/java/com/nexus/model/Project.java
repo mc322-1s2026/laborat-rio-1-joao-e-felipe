@@ -30,4 +30,12 @@ public class Project {
     public List<Task> getProjectTasks() {
         return tasks;
     }
+
+    public double projectHealth() {
+        // In Percentage
+        double tasksDone = tasks.stream()
+                .filter(task -> task.getStatus().equals(TaskStatus.DONE))
+                .count();
+        return (tasksDone / tasks.size()) * 100;
+    }
 }
