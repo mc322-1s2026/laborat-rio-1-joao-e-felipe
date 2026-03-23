@@ -34,9 +34,9 @@ public class Task {
      * Move a tarefa para IN_PROGRESS.
      * Regra: Só é possível se houver um owner atribuído e não estiver BLOCKED.
      */
-    public void moveToInProgress(User user) {
-        if (Objects.isNull(user)) {
-            throw new NexusValidationException("Usuário não existe");
+    public void moveToInProgress() {
+        if (this.owner == null) {
+            throw new NexusValidationException("Task não está atribuída a nenhum usuário");
         }
         this.status = TaskStatus.IN_PROGRESS;
         activeWorkload++;
@@ -55,7 +55,7 @@ public class Task {
         activeWorkload--;
     }
 
-    public void setBlocked(boolean blocked) {
+    private void setBlocked(boolean blocked) {
         if (blocked) {
             this.status = TaskStatus.BLOCKED;
         } else {
@@ -79,9 +79,26 @@ public class Task {
         task.assignUser(username, workspace);
     }
 
+    private void changeStatus(String status_code){
+        switch(status_code){
+            case "BLOCKED":
+                this.setBlocked(true);
+                break;
+            case "IN_PROGRESS": 
+                this.moveToInProgress();
+                break;
+            case "TODO":
+                this.setBlocked(false);
+                break;
+        }
+    }
+
     public static void changeStatus(int taskId, String status, Workspace workspace) {
         Task task = workspace.findTask(taskId);
-        // TODO: change status
+        if(task == null){
+            throw new NexusValidationException("Tarefa não existe");
+        }
+        task.changeStatus(status);
     }
 
     // Getters
