@@ -27,7 +27,6 @@ public class Task {
         this.status = TaskStatus.TO_DO;
         this.estimatedEffort = estimatedEffort;
 
-        // Ação do Aluno:
         totalTasksCreated++;
     }
 
@@ -36,12 +35,6 @@ public class Task {
      * Regra: Só é possível se houver um owner atribuído e não estiver BLOCKED.
      */
     public void moveToInProgress(User user) {
-        // TODO: Implementar lógica de proteção e atualizar activeWorkload
-        // IN PROGRESS
-        // Se falhar, incrementar totalValidationErrors e lançar
-        // NexusValidationException
-
-        // Validação
         if (Objects.isNull(user)) {
             throw new NexusValidationException("Usuário não existe");
         }
@@ -55,8 +48,6 @@ public class Task {
      * Regra: Só pode ser movida para DONE se não estiver BLOCKED.
      */
     public void markAsDone() {
-        // TODO: Implementar lógica de proteção e atualizar activeWorkload (decrementar)
-        // IN PROGRESS
         if (this.getStatus() == TaskStatus.BLOCKED) {
             return;
         }
@@ -70,6 +61,18 @@ public class Task {
         } else {
             this.status = TaskStatus.TO_DO; // Simplificação para o Lab
         }
+    }
+
+
+    public static void assignUser(int taskId, String username, Workspace workspace) {
+        Task task = workspace.findTask(taskId);
+        task.owner = workspace.findUser(username);
+    }
+
+
+    public static void changeStatus(int taskId, String status, Workspace workspace) {
+        Task task = workspace.findTask(taskId);
+        // TODO: change status
     }
 
     // Getters
@@ -105,14 +108,4 @@ public class Task {
         return estimatedEffort;
     }
 
-    public static void assignUser(int taskId, String username, Workspace workspace) {
-        Task task = workspace.findTask(taskId);
-        task.owner = workspace.findUser(username);
-    }
-
-
-    public static void changeStatus(int taskId, String status, Workspace workspace) {
-        Task task = workspace.findTask(taskId);
-        // TODO: change status
-    }
 }
