@@ -63,12 +63,21 @@ public class Task {
         }
     }
 
+    public void assignUser(String username, Workspace workspace){
+        User user = workspace.findUser(username);
+        if(user == null){
+            throw new NexusValidationException("Usuário não existe");
+        }
+        this.owner = user;
+    }
 
     public static void assignUser(int taskId, String username, Workspace workspace) {
         Task task = workspace.findTask(taskId);
-        task.owner = workspace.findUser(username);
+        if(task == null){
+            throw new NexusValidationException("Tarefa não existe");
+        }
+        task.assignUser(username, workspace);
     }
-
 
     public static void changeStatus(int taskId, String status, Workspace workspace) {
         Task task = workspace.findTask(taskId);
