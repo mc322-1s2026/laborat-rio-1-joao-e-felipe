@@ -23,7 +23,7 @@ public class User {
 
     public User(String username, String email) {
         if (username == null || username.isBlank()) {
-            throw new IllegalArgumentException("Username não pode ser vazio.");
+            throw new IllegalArgumentException("Username não pode ser vazio");
         }
         if (!isValidEmail(email)) {
             throw new IllegalArgumentException("Email inválido");
@@ -32,21 +32,6 @@ public class User {
         this.email = email;
     }
 
-    public String consultEmail() {
-        return email;
-    }
-
-    public String consultUsername() {
-        return username;
-    }
-
-    // public static User findUser(Workspace workspace, String username) {
-    // List<User> users = workspace.getUsers();
-    // return users.stream()
-    // .filter(user -> user.consultUsername().equals(username))
-    // .findFirst()
-    // .orElse(null);
-    // }
 
     private Stream<Task> getUserTasksStream(Workspace workspace) {
         return workspace.getTasks().stream()
@@ -60,6 +45,15 @@ public class User {
 
     @Override
     public String toString() {
+        return username;
+    }
+
+    // Getters
+    public String consultEmail() {
+        return email;
+    }
+
+    public String consultUsername() {
         return username;
     }
 }

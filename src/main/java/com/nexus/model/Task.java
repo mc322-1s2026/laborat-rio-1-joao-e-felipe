@@ -90,6 +90,11 @@ public class Task {
             case "TODO":
                 this.setBlocked(false);
                 break;
+            case "DONE":
+                this.markAsDone();
+                break;
+            default:
+                throw new NexusValidationException("Estado de tarefa '" + status_code + "' não existe");
         }
     }
 

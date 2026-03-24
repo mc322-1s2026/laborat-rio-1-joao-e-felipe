@@ -1,5 +1,6 @@
 package com.nexus.service;
 
+import com.nexus.exception.NexusValidationException;
 import com.nexus.model.Project;
 import com.nexus.model.Task;
 import com.nexus.model.TaskStatus;
@@ -92,8 +93,30 @@ public class Workspace {
                 .forEach(p -> System.out.printf("Projeto %s: %.2f%%\n", p.consultName(), p.projectHealth()));
     }
 
+    public Project findProject(String projectName){
+        return this.projects.stream()
+        .filter(p -> p.consultName().equals(projectName))
+        .findFirst()
+        .orElse(null);
+    }   
+
     public void addProject(Project project) {
+        if(findProject(project.consultName()) != null){
+            throw new NexusValidationException("Projeto ja existe");
+        }
         projects.add(project);
+    }
+
+    public void addTaskToProject(String projectName, int taskId){
+        Project project = this.findProject(projectName);
+        if(project == null){
+            throw new NexusValidationException("Projeto não existe");
+        }
+        Task task = this.findTask(taskId);
+        if(task == null){
+            throw new NexusValidationException("Task não existel");
+        }
+        project.addTask(task);
     }
 
     private TaskStatus bottleneck() {

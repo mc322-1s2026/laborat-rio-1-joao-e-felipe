@@ -37,9 +37,11 @@ public class LogProcessor {
                                 System.out.println("[LOG] Usuário criado: " + p[1]);
                             }
                             case "CREATE_TASK" -> {
-                                // TODO: remove this estimatedEffor: 0
-                                Task t = new Task(p[1], LocalDate.parse(p[2]), 0);
+                                Task t = new Task(p[1], LocalDate.parse(p[2]), Integer.parseInt(p[3]));
                                 workspace.addTask(t);
+                                if(p.length > 4){
+                                    workspace.addTaskToProject(p[4], t.getId());
+                                }
                                 System.out.println("[LOG] Tarefa criada: " + p[1]);
                             }
                             case "CREATE_PROJECT" -> {
@@ -60,8 +62,11 @@ public class LogProcessor {
                             }
                             default -> System.err.println("[WARN] Ação desconhecida: " + action);
                         }
+
                     } catch (NexusValidationException e) {
                         System.err.println("[ERRO DE REGRAS] Falha no comando '" + line + "': " + e.getMessage());
+                    } catch (Exception e) {
+                        System.err.println("[ERRO FATAL] Falha no comando '" + line + "': "+ e.getMessage());
                     }
                 }
             }

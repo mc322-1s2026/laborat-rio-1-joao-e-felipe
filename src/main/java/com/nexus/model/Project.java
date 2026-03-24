@@ -17,7 +17,7 @@ public class Project {
 
     public void addTask(Task t) {
         if (t.consultEstimatedEffort() > totalBudget) {
-            NexusValidationException error = new NexusValidationException("Total budget excedido");
+            throw new NexusValidationException("Total budget excedido");
         } else {
             tasks.add(t);
         }
@@ -33,9 +33,13 @@ public class Project {
 
     public double projectHealth() {
         // In Percentage
-        double tasksDone = tasks.stream()
+        double doneCount = tasks.stream()
                 .filter(task -> task.getStatus().equals(TaskStatus.DONE))
                 .count();
-        return (tasksDone / tasks.size()) * 100;
+        if(tasks.size() != 0){
+            return (doneCount / tasks.size()) * 100;
+        } else{
+            return 100;
+        }
     }
 }
