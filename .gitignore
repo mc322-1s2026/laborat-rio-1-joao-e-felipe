@@ -23,7 +23,13 @@
 hs_err_pid*
 replay_pid*
 
+# Maven
+target/
+
 # Eclise IDE files
 .classpath
 .project
 .settings
+
+# VSCode
+.vscode

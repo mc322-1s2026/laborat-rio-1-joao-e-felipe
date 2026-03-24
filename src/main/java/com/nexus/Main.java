@@ -60,20 +60,21 @@ public class Main {
 
     /**
      * Imprime o menu principal na saída padrão.
-     * <p>As opções do menu correspondem às escolhas tratadas em
+     * <p>
+     * As opções do menu correspondem às escolhas tratadas em
      * {@link #main(String[])}.
      * </p>
      */
     private static void displayMenu() {
         System.out.print("""
-            
-            ======= NEXUS CORE: MENU =======
-            1. Adicionar Usuário
-            2. Adicionar Tarefa
-            3. Listar Todas as Tarefas
-            4. Processar Log de Ações
-            0. Sair
-            Escolha uma opção:\s""");
+
+                ======= NEXUS CORE: MENU =======
+                1. Adicionar Usuário
+                2. Adicionar Tarefa
+                3. Listar Todas as Tarefas
+                4. Processar Log de Ações
+                0. Sair
+                Escolha uma opção:\s""");
     }
 
     /**
@@ -87,9 +88,8 @@ public class Main {
             String username = scanner.nextLine();
             System.out.print("Email: ");
             String email = scanner.nextLine();
-
             User newUser = new User(username, email);
-            users.add(newUser);
+            workspace.addUser(newUser);
             System.out.println("[OK] Usuário cadastrado.");
         } catch (NexusValidationException e) {
             System.err.println("[ERRO] " + e.getMessage());
@@ -107,8 +107,10 @@ public class Main {
             String title = scanner.nextLine();
             System.out.print("Prazo (AAAA-MM-DD): ");
             LocalDate deadline = LocalDate.parse(scanner.nextLine());
+            System.out.print("Prazo (AAAA-MM-DD): ");
+            int estimatedEffort = scanner.nextInt();
 
-            Task newTask = new Task(title, deadline);
+            Task newTask = new Task(title, deadline, estimatedEffort);
             workspace.addTask(newTask);
             System.out.println("[OK] Tarefa adicionada ao backlog.");
         } catch (DateTimeParseException e) {
@@ -141,7 +143,7 @@ public class Main {
                     t.getDeadline());
         }
         System.out.println(header);
-        System.out.println("Total de tarefas: " + Task.totalTasksCreated);
+        System.out.println("Total de tarefas: " + Task.getTotalTasksCreated());
     }
 
     /**
@@ -153,7 +155,8 @@ public class Main {
      * @return uma string possivelmente reduzida; nunca {@code null}
      */
     private static String truncar(String str, int tam) {
-        if (str == null) return "";
+        if (str == null)
+            return "";
         return str.length() > tam ? str.substring(0, tam - 3) + "..." : str;
     }
 }
