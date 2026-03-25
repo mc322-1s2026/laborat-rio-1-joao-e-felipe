@@ -1,8 +1,6 @@
 package com.nexus.model;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
 import com.nexus.exception.NexusValidationException;
 import com.nexus.service.Workspace;
 
@@ -63,9 +61,9 @@ public class Task {
         }
     }
 
-    public void assignUser(String username, Workspace workspace){
+    public void assignUser(String username, Workspace workspace) {
         User user = workspace.findUser(username);
-        if(user == null){
+        if (user == null) {
             throw new NexusValidationException("Usuário não existe");
         }
         this.owner = user;
@@ -73,18 +71,18 @@ public class Task {
 
     public static void assignUser(int taskId, String username, Workspace workspace) {
         Task task = workspace.findTask(taskId);
-        if(task == null){
+        if (task == null) {
             throw new NexusValidationException("Tarefa não existe");
         }
         task.assignUser(username, workspace);
     }
 
-    private void changeStatus(String status_code){
-        switch(status_code){
+    private void changeStatus(String status_code) {
+        switch (status_code) {
             case "BLOCKED":
                 this.setBlocked(true);
                 break;
-            case "IN_PROGRESS": 
+            case "IN_PROGRESS":
                 this.moveToInProgress();
                 break;
             case "TODO":
@@ -100,7 +98,7 @@ public class Task {
 
     public static void changeStatus(int taskId, String status, Workspace workspace) {
         Task task = workspace.findTask(taskId);
-        if(task == null){
+        if (task == null) {
             throw new NexusValidationException("Tarefa não existe");
         }
         task.changeStatus(status);

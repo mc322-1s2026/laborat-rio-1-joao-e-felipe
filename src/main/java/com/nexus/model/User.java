@@ -1,9 +1,5 @@
 package com.nexus.model;
 
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,6 +11,7 @@ public class User {
     private final String username;
     private final String email;
     private static final String EMAIL_REQUIREMENTS = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
     public static boolean isValidEmail(String email) {
         Pattern pattern = Pattern.compile(EMAIL_REQUIREMENTS);
         Matcher matcher = pattern.matcher(email);
@@ -31,7 +28,6 @@ public class User {
         this.username = username;
         this.email = email;
     }
-
 
     private Stream<Task> getUserTasksStream(Workspace workspace) {
         return workspace.getTasks().stream()
